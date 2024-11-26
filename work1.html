@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Work 1: แบบทดสอบใบขับขี่</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+<!-- Header Section -->
+<div class="container-fluid bg-primary text-white text-center py-4">
+  <h1>แบบทดสอบใบขับขี่</h1>
+</div>
+
+<!-- Content Section -->
+<div class="container my-4">
+  <!-- Start Box -->
+  <div class="row justify-content-center" id="startBox">
+    <div class="col-12 text-center">
+        <p>มีจุดประสงค์เพื่อวัดความรู้ความเข้าใจของผู้ทดสอบในด้านต่างๆ ได้แก่ กฏหมายจราจรเบื้องต้น การอ่านป้ายสัญญาณต่างๆ มารยาทในการขับรถ และการบำรุงดูแลรักษารถเบื้องต้น</p>
+      <button class="btn btn-primary btn-lg" id="btnStart">เริ่มทำแบบทดสอบ</button>
+    </div>
+  </div>
+
+  <!-- Quiz Box -->
+  <div class="row justify-content-center" id="quizBox" style="display: none;">
+    <div class="col-lg-8 col-md-10 border p-4 rounded">
+      <div id="quizListBox"></div>
+      <div class="text-center mt-4">
+        <button class="btn btn-success btn-lg" id="btnCheckAnswer">ตรวจคำตอบ</button>
+      </div>
+      <div id="resultBox" class="text-center text-success mt-3 fw-bold"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function () {
+    // ซ่อน Quiz Box เริ่มต้น
+    $("#quizBox").hide();
+
+    // เมื่อกดปุ่มเริ่มต้น
+    $("#btnStart").click(function () {
+      $("#startBox").hide();
+      $("#quizBox").fadeIn();
+      displayQuizList();
+    });
+
+    // ตรวจคำตอบ
+    $("#btnCheckAnswer").click(function () {
+      checkAnswers();
+    });
+  });
+
+  function displayQuizList() {
+    $("#quizListBox").html("<div class='mb-4 fw-bold'>ข้อสอบ</div>");
+    for (var i in quizlist) {
+      displayQuiz(i, quizlist[i]);
+    }
+  }
+
+  function displayQuiz(i, q) {
+    var no = parseInt(i) + 1;
+    $("#quizListBox").append(`
+      <div class='mb-3'>
+        <p class='fw-bold'>ข้อที่ ${no}. ${q.title}</p>
+      </div>
+    `);
+
+    for (var c in q.options) {
+      var v = parseInt(c) + 1;
+      $("#quizListBox").append(`
+        <div class='form-check mb-2'>
+          <input class='form-check-input' type='radio' name='q${no}' value='${v}' id='q${no}_opt${v}'>
+          <label class='form-check-label' for='q${no}_opt${v}'>${v}. ${q.options[c]}</label>
+        </div>
+      `);
+    }
+  }
+
+  function checkAnswers() {
+    var score = 0;
+    var total = quizlist.length;
+
+    for (var i in quizlist) {
+      var no = parseInt(i) + 1;
+      var correctAnswer = quizlist[i].answer;
+      var selectedAnswer = $(`input[name='q${no}']:checked`).val();
+
+      if (parseInt(selectedAnswer) === correctAnswer) {
+        score++;
+      }
+    }
+
+    $("#resultBox").html(`คุณได้คะแนน ${score} จากทั้งหมด ${total} ข้อ`);
+  }
+
+  var quizlist = [];
+  $(function () {
+    $("#quizBox").hide();
+    // Load quiz data from JSON
+    $.getJSON("quiz.json", function (data) {
+      quizlist = data;
+    });
+  });
+</script>
+
+</body>
+</html>
