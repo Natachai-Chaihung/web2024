@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReactJS Quiz - ขอนแก่น</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    .card-header {
+      background: linear-gradient(to right, #ff7e5f, #feb47b);
+      color: white;
+      text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      text-align: center;
+    }
+    .btn-custom {
+      background: linear-gradient(to right, #11998e, #38ef7d);
+      border: none;
+      color: white;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-custom:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .score-text {
+      font-size: 2rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgb(255, 0, 0);
+    }
+    .form-check-label {
+      font-size: 1.1rem;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="myapp" class="container"></div>
+  <script type="text/babel">
+
+    // App Component
+    class App extends React.Component {
+      state = {
+        qlist: [],
+        status: 0, // 0: Menu, 1: Quiz, 2: ShowScore
+        answers: {},
+        score: 0,
+      };
+
+      // Load questions from JSON file
+      async load_data() {
+        const response = await fetch("quiz3.json");
+        const data = await response.json();
+        this.setState({ qlist: data });
+      }
+
+      componentDidMount() {
+        this.load_data();
+      }
+
+      // Check answers and calculate score
+      checkAnswer() {
+        const score = this.state.qlist.reduce((total, q, i) => {
+          const correct = q.answer === this.state.answers["q" + i];
+          return total + (correct ? 1 : 0);
+        }, 0);
+        this.setState({ status: 2, score: score });
+      }
+
+      render() {
+        let content;
+        if (this.state.status === 0) {
+          content = <Menu app={this} />;
+        } else if (this.state.status === 1) {
+          content = <QList list={this.state.qlist} app={this} />;
+        } else if (this.state.status === 2) {
+          content = <ShowScore app={this} />;
+        }
+
+        return (
+          <div className="card mx-auto shadow-lg" style={{ maxWidth: '900px' }}>
+            <div className="card-header">
+              <h1><i className="fas fa-graduation-cap"></i> แบบทดสอบ ReactJS</h1>
+              <h4>เกี่ยวกับจังหวัดขอนแก่น</h4>
+            </div>
+            <div className="card-body text-dark">
+              {content}
+            </div>
+            <div className="card-footer text-center text-white">
+              <small>By 653380179-9 Natachai Chaihung</small>
+            </div>
+          </div>
+        );
+      }
+    }
+
+    // Menu Component
+    function Menu({ app }) {
+      return (
+        <div className="text-center">
+          <button className="btn btn-custom btn-lg px-4 py-3" onClick={() => app.setState({ status: 1 })}>
+            เริ่มทำแบบทดสอบ
+          </button>
+        </div>
+      );
+    }
+
+    // QList Component
+    function QList({ list, app }) {
+      return (
+        <div>
+          {list.map((q, i) => (
+            <div key={i} className="mb-4">
+              <QBlock q={q} i={i} app={app} />
+            </div>
+          ))}
+          <div className="text-center">
+            <button className="btn btn-custom btn-lg px-4 py-3" onClick={() => app.checkAnswer()}>
+              ตรวจคำตอบ
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    // QBlock Component
+    function QBlock({ q, i, app }) {
+      const handleChange = (event) => {
+        const { name, value } = event.target;
+        const answers = { ...app.state.answers, [name]: value };
+        app.setState({ answers });
+      };
+
+      return (
+        <div className="p-4 border rounded bg-light">
+          <p className="mb-3">
+            {i + 1}. <span dangerouslySetInnerHTML={{ __html: q.title }}></span>
+          </p>
+          {q.options.map((option, pi) => (
+            <div key={pi} className="form-check">
+              <input
+                type="radio"
+                className="form-check-input"
+                name={"q" + i}
+                value={pi + 1}
+                id={`q${i}_${pi}`}
+                onChange={handleChange}
+              />
+              <label className="form-check-label" htmlFor={`q${i}_${pi}`}>
+                {option}
+              </label>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    // ShowScore Component
+    function ShowScore({ app }) {
+      return (
+        <div className="text-center">
+          <h3 className="score-text">คุณได้คะแนน {app.state.score} คะแนน</h3>
+          <button className="btn btn-custom btn-lg px-4 py-3 mt-4" onClick={() => app.setState({ status: 0, answers: {}, score: 0 })}>
+            ทำใหม่อีกครั้ง
+          </button>
+        </div>
+      );
+    }
+
+    const container = document.getElementById("myapp");
+    const root = ReactDOM.createRoot(container);
+    root.render(<App />);
+
+  </script>
+</body>
+</html>
