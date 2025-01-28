@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>งานที่ 5 </h1>
+  <img src="./Screenshot 2025-01-28 143306.png" alt="" width="560" height="300">
+ <br>
+  <a href="https://drive.google.com/file/d/1KXLMOGArUO1D6QrnYRoRxh8vFTT1V9-s/view?usp=sharing">Demo</a>
+</body>
+</html>
+
+<!-- คลิป Demo https://drive.google.com/file/d/1KXLMOGArUO1D6QrnYRoRxh8vFTT1V9-s/view?usp=sharing -->
+
+
+<!-- Source Code -->
+
+
+<!-- import * as React from 'react';
+import { Text, View, StyleSheet, Button, ImageBackground } from 'react-native';
+import { CameraView, useCameraPermissions } from 'expo-camera';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+
+const image = { uri: 'https://m.media-amazon.com/images/I/71meY6dAvjL.jpg' };
+
+function FaceView() {
+  const [facing, setFacing] = React.useState('front');
+  const [permission, requestPermission] = useCameraPermissions();
+  const [zoom, setZoom] = React.useState(0.5);
+
+  // ฟังก์ชันสลับกล้อง
+  const toggleFace = () => {
+    setFacing(facing === 'front' ? 'back' : 'front');
+  };
+
+  // ฟังก์ชันปรับ zoom
+  const Zoom = (z) => {
+    if (zoom >= 0 && z < 0) setZoom(zoom + z);
+    else if (zoom <= 1 && z > 0) setZoom(zoom + z);
+  };
+
+  if (!permission) {
+    // Camera permissions are still loading
+    return <View />;
+  }
+
+  if (!permission.granted) {
+    // Camera permissions are not granted yet
+    return (
+      <View style={styles.container}>
+        <Text style={{ textAlign: 'center' }}>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="Grant Permission" />
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.cameraContainer}>
+      <CameraView
+        style={styles.camera}
+        facing={facing}
+        zoom={zoom}
+      >
+        <View style={styles.row}>
+          <Button title="สลับกล้อง" onPress={toggleFace} />
+          <Button title="ย่อ" onPress={() => Zoom(-0.1)} />
+          <Button title="ขยาย" onPress={() => Zoom(0.1)} />
+          <Text style={styles.text}>F: {facing}</Text>
+          <Text style={styles.text}>Z: {zoom.toFixed(2)}</Text>
+        </View>
+      </CameraView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  cameraContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center', // จัดให้ CameraView อยู่กึ่งกลาง
+  },
+  camera: {
+    width: 300, // กำหนดความกว้างของ CameraView
+    height: 400, // กำหนดความสูงของ CameraView
+    borderRadius: 20, // ทำให้มุมโค้ง
+    overflow: 'hidden', // ตัดส่วนเกินของ CameraView
+  },
+  row: {
+    flexDirection: 'row',
+    padding: 10,
+    justifyContent: 'space-around', // จัดวางปุ่มให้กระจายตัว
+    alignItems: 'center', // จัดให้ปุ่มและข้อความอยู่กึ่งกลางแนวตั้ง
+  },
+  text: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+    backgroundColor: '#000000c0',
+    padding: 5,
+    borderRadius: 5,
+  },
+  image: {
+    flex: 1,
+    justifyContent: 'space-between', // จัดวางข้อความด้านบนและด้านล่าง
+    paddingTop: 20, // เพิ่ม padding ด้านบน
+    paddingBottom: 20, // เพิ่ม padding ด้านล่าง
+  },
+  topText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: '#00000080', // เพิ่มพื้นหลังให้ข้อความ
+    padding: 10,
+    borderRadius: 10,
+  },
+  bottomText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'white',
+    backgroundColor: '#00000080', // เพิ่มพื้นหลังให้ข้อความ
+    padding: 10,
+    borderRadius: 10,
+  },
+});
+
+export default function App() {
+  return (
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.container} edges={['left', 'right']}>
+        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+          <Text style={styles.topText}>Work 5: Camera App</Text> {/* ข้อความด้านบน */}
+          <FaceView />
+          <Text style={styles.bottomText}>653380179-9 Natachai Chaihung</Text> {/* ข้อความด้านล่าง */}
+        </ImageBackground>
+      </SafeAreaView>
+    </SafeAreaProvider>
+  );
+} -->
+
+
+
